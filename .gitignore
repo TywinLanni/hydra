@@ -3,4 +3,4 @@
 .idea/
 
 !gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
+!**/src/**/build/
