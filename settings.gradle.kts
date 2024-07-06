@@ -1,15 +1,4 @@
-pluginManagement {
-    val kotlinVersion: String by settings
+rootProject.name = "otus"
 
-    plugins {
-        kotlin("jvm") version kotlinVersion
-    }
-}
-
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
-}
-
-rootProject.name = "marketplace"
-
-include("m1l1-first")
+includeBuild("lessons")
+includeBuild("tw-hydra")
