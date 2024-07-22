@@ -1,15 +1,11 @@
 plugins {
-    kotlin("jvm")
-}
-
-kotlin {
-    jvmToolchain(21)
+    alias(libs.plugins.kotlin.jvm)
 }
 
 dependencies {
     testImplementation(kotlin("test"))
 }
 
-tasks.test {
+tasks.withType<Test> {
     useJUnitPlatform()
 }
