@@ -22,7 +22,7 @@ services:
       - ./volumes/nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./volumes/nginx/nginx.conf:/etc/nginx/nginx.conf
     logging:
-      # используемый драйвер логгирования
+      # используемый драйвер логирования
       driver: "fluentd"
       options:
         # куда посылать лог-сообщения, необходимо чтобы адрес
