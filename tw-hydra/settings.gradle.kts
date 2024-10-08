@@ -1,4 +1,4 @@
-dependencyResolutionManagement {
+  dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             from(files("../gradle/libs.versions.toml"))
@@ -22,5 +22,7 @@ pluginManagement {
 rootProject.name = "tw-hydra"
 
 include(":test-module")
+include(":tw-hydra-api-v1-kmp")
+include(":tw-hydra-common")
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

@@ -1,0 +1,434 @@
+openapi: 3.0.4
+info:
+  title: "Hydra ${VERSION_APP}"
+  description: This application helps to purchase products to the warehouse on time
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/v1
+tags:
+  - name: product
+    description: Товар
+  - name: productTurnover
+    description: Товарооборот
+paths:
+  /product/create:
+    post:
+      tags:
+        - product
+      summary: Create product
+      operationId: productCreate
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCreateRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductCreateResponse'
+
+  /product/read:
+    post:
+      tags:
+        - product
+      summary: Read product
+      operationId: productRead
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductReadRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductReadResponse'
+
+  /product/update:
+    post:
+      tags:
+        - product
+      summary: Update product
+      operationId: productUpdate
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductUpdateRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductUpdateResponse'
+
+  /product/delete:
+    post:
+      tags:
+        - product
+      summary: Delete product
+      operationId: productDelete
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductDeleteRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDeleteResponse'
+
+  /product/search:
+    post:
+      tags:
+        - product
+      summary: Search product
+      operationId: productSearch
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductSearchRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductSearchResponse'
+
+components:
+  schemas:
+
+    IRequest:
+      type: object
+      description: Базовый интерфейс для всех запросов
+      properties:
+        requestType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: createProduct
+      discriminator:
+        propertyName: requestType
+        mapping:
+          createProduct: '#/components/schemas/ProductCreateRequest'
+          readProduct:   '#/components/schemas/ProductReadRequest'
+          updateProduct: '#/components/schemas/ProductUpdateRequest'
+          deleteProduct: '#/components/schemas/ProductDeleteRequest'
+          searchProduct: '#/components/schemas/ProductSearchRequest'
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        group:
+          type: string
+        field:
+          type: string
+        message:
+          type: string
+
+    ResponseResult:
+      type: string
+      enum:
+        - success
+        - error
+
+    IResponse:
+      type: object
+      description: Базовый интерфейс для всех ответов
+      properties:
+        responseType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+        result:
+          $ref: '#/components/schemas/ResponseResult'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+
+      discriminator:
+        propertyName: responseType
+        mapping:
+          createProduct: '#/components/schemas/ProductCreateResponse'
+          readProduct:   '#/components/schemas/ProductReadResponse'
+          updateProduct: '#/components/schemas/ProductUpdateResponse'
+          deleteProduct: '#/components/schemas/ProductDeleteResponse'
+          searchProduct: '#/components/schemas/ProductSearchResponse'
+          initProduct: '#/components/schemas/ProductInitResponse'
+
+    UserId:
+      type: string
+      description: Идентификатор пользователя
+    ProductId:
+      type: string
+      description: Идентификатор продукта
+    ProductLock:
+      type: string
+      description: Версия оптимистичной блокировки
+
+    BaseProduct:
+      type: object
+      description: Объект описывает свойства, одинаковые для create и update
+      properties:
+        name:
+          type: string
+          description: Название товара
+        outerId:
+          type: string
+          description: Внешний id
+        productType:
+          $ref: '#/components/schemas/ProductType'
+        oneUnitWeightG:
+          type: integer
+          format: int32
+          description: Вес 1 шт, если товар штучный, г
+        buyStep:
+          type: integer
+          format: int32
+          description: Шаг, с которым предполагается закупка товара
+        expirationDate:
+          type: string
+          description: Срок годности товара, если он есть
+        planedForPurchase:
+          type: boolean
+          description: Планируется ли дальнейшая закупка товара
+        weighGtPerStorageLocation:
+          type: integer
+          format: int32
+          description: Кол-во веса грамм на 1 месте на складе
+
+    ProductType:
+      type: string
+      description: Тип продукта
+      enum:
+        - quantity
+        - weight
+
+
+    # REQUEST ======================
+    ProductCreateObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseProduct'
+
+    ProductCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/ProductRequestDebug'
+        - type: object
+          properties:
+            product:
+              $ref: '#/components/schemas/ProductCreateObject'
+            initValue:
+              type: integer
+              format: int32
+              description: Кол-во товара на складе в данный момент времени
+
+    ProductReadObject:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/ProductId'
+
+    ProductReadRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/ProductRequestDebug'
+        - type: object
+          properties:
+            product:
+              $ref: '#/components/schemas/ProductReadObject'
+
+    ProductUpdateObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseProduct'
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/ProductId'
+            lock:
+              $ref: '#/components/schemas/ProductLock'
+
+    ProductUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/ProductRequestDebug'
+        - type: object
+          properties:
+            product:
+              $ref: '#/components/schemas/ProductUpdateObject'
+
+    ProductDeleteObject:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/ProductId'
+            lock:
+              $ref: '#/components/schemas/ProductLock'
+
+    ProductDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/ProductRequestDebug'
+        - type: object
+          properties:
+            product:
+              $ref: '#/components/schemas/ProductDeleteObject'
+
+    ProductSearchFilter:
+      type: object
+      description: Набор фильтров для поиска
+      properties:
+        searchString:
+          type: string
+          description: Поисковая строка, которая будет искаться в товарах
+        productType:
+          $ref: '#/components/schemas/ProductType'
+        planedForPurchase:
+          type: boolean
+
+    ProductSearchRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/ProductRequestDebug'
+        - type: object
+          properties:
+            productFilter:
+              $ref: '#/components/schemas/ProductSearchFilter'
+
+
+    # RESPONSE ======================
+    ProductInitResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+
+    ProductResponseObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseProduct'
+        - type: object
+          description: Объект, который возвращается в ответе бэкенда
+          properties:
+            id:
+              $ref: '#/components/schemas/ProductId'
+            ownerId:
+              $ref: '#/components/schemas/UserId'
+            lock:
+              $ref: '#/components/schemas/ProductLock'
+            permissions:
+              type: array
+              uniqueItems: true
+              items:
+                $ref: '#/components/schemas/ProductPermissions'
+
+    ProductPermissions:
+      type: string
+      description: Доступы для клиента для операций над товаром
+      enum:
+        - read
+        - update
+        - delete
+
+    ProductResponseSingle:
+      allOf:
+        - type: object
+          description: Ответ с одним объектом товара
+          properties:
+            product:
+              $ref: '#/components/schemas/ProductResponseObject'
+
+    ProductResponseMulti:
+      allOf:
+        - type: object
+          description: Список найденных объектов
+          properties:
+            products:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProductResponseObject'
+
+    ProductCreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/ProductResponseSingle'
+
+    ProductReadResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/ProductResponseSingle'
+
+    ProductUpdateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/ProductResponseSingle'
+
+    ProductDeleteResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/ProductResponseSingle'
+
+    ProductSearchResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/ProductResponseMulti'
+
+    # STUBS ======================
+    ProductRequestDebugMode:
+      type: string
+      enum:
+        - prod
+        - test
+        - stub
+
+    ProductRequestDebug:
+      type: object
+      properties:
+        debug:
+          $ref: '#/components/schemas/ProductDebug'
+
+    ProductDebug:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/ProductRequestDebugMode'
+        stub:
+          $ref: '#/components/schemas/ProductRequestDebugStubs'
+
+    ProductRequestDebugStubs:
+      type: string
+      description: Перечисления всех стабов
+      enum:
+        - success
+        - notFound
+        - badId
+        - badTitle
+        - badDescription
+        - badVisibility
+        - cannotDelete
+        - badSearchString
