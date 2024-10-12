@@ -4,6 +4,7 @@ import com.github.tywinlanni.hydra.common.HydraProductContext
 import com.github.tywinlanni.hydra.api.v1.models.ProductCreateRequest
 import com.github.tywinlanni.hydra.common.models.HydraCommand
 import com.github.tywinlanni.hydra.common.models.HydraError
+import com.github.tywinlanni.hydra.common.models.HydraState
 import com.github.tywinlanni.hydra.common.stubs.HydraStubs
 
 private sealed interface Result<T,E>
@@ -58,8 +59,8 @@ fun HydraProductContext.fromTransportValidated(request: ProductCreateRequest) {
         ?.stub
         ?.value
         .transportToStubCaseValidated()
-        .getOrExec(com.github.tywinlanni.hydra.common.stubs.HydraStubs.NONE) { err: Err<HydraStubs, HydraError> ->
+        .getOrExec(HydraStubs.NONE) { err: Err<HydraStubs, HydraError> ->
             errors.addAll(err.errors)
-            state = com.github.tywinlanni.hydra.common.models.HydraState.FAILING
+            state = HydraState.FAILING
         }
 }
