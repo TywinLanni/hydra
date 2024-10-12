@@ -5,6 +5,7 @@ import com.githib.tywinlanni.hydra.api1.apiV1RequestSerialize
 import com.githib.tywinlanni.hydra.api1.apiV1ResponseDeserialize
 import com.github.tywinlanni.hydra.api.v1.models.*
 import com.github.tywinlanni.hydra.app.ktor.module
+import com.github.tywinlanni.hydra.app.ktor.moduleJvm
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.websocket.*
 import io.ktor.serialization.kotlinx.json.*
@@ -101,7 +102,7 @@ class WsProductStubs {
         request: T,
         crossinline function: suspend (IResponse?) -> Unit,
     ): Unit = testApplication {
-        application { module() }
+        application { moduleJvm() }
         val client = createClient {
             install(WebSockets)
 
