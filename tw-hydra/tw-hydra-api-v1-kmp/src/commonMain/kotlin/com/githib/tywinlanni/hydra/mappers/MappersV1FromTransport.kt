@@ -1,4 +1,4 @@
-package com.githib.tywinlanni.mappers
+package com.githib.tywinlanni.hydra.mappers
 
 import com.github.tywinlanni.HydraProductContext
 import com.github.tywinlanni.NONE

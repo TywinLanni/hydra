@@ -1,4 +1,4 @@
-package com.githib.tywinlanni
+package com.githib.tywinlanni.hydra
 
 import com.github.tywinlanni.hydra.api.v1.models.IRequest
 import com.github.tywinlanni.hydra.api.v1.models.IResponse

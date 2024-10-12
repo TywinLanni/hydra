@@ -1,6 +1,6 @@
 package mappers
 
-import com.githib.tywinlanni.mappers.fromTransportValidated
+import com.githib.tywinlanni.hydra.mappers.fromTransportValidated
 import com.github.tywinlanni.HydraProductContext
 import com.github.tywinlanni.hydra.api.v1.models.ProductCreateRequest
 import com.github.tywinlanni.hydra.api.v1.models.ProductDebug

@@ -1,4 +1,4 @@
-package com.githib.tywinlanni.mappers
+package com.githib.tywinlanni.hydra.mappers
 
 import com.github.tywinlanni.NONE
 import com.github.tywinlanni.hydra.api.v1.models.*

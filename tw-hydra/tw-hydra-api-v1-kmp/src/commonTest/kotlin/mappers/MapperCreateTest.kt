@@ -1,7 +1,7 @@
 package mappers
 
-import com.githib.tywinlanni.mappers.fromTransport
-import com.githib.tywinlanni.mappers.toTransportProduct
+import com.githib.tywinlanni.hydra.mappers.fromTransport
+import com.githib.tywinlanni.hydra.mappers.toTransportProduct
 import com.github.tywinlanni.HydraProductContext
 import com.github.tywinlanni.hydra.api.v1.models.*
 import com.github.tywinlanni.models.*

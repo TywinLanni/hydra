@@ -1,4 +1,4 @@
-import com.githib.tywinlanni.apiV1Mapper
+import com.githib.tywinlanni.hydra.apiV1Mapper
 import com.github.tywinlanni.hydra.api.v1.models.*
 import kotlinx.serialization.encodeToString
 import kotlin.test.Test

@@ -1,4 +1,4 @@
-package com.githib.tywinlanni.mappers
+package com.githib.tywinlanni.hydra.mappers
 
 import com.github.tywinlanni.HydraProductContext
 import com.github.tywinlanni.hydra.api.v1.models.ProductCreateRequest
@@ -8,23 +8,23 @@ import com.github.tywinlanni.models.HydraState
 import com.github.tywinlanni.stubs.HydraStubs
 
 private sealed interface Result<T,E>
-private data class Ok<T,E>(val value: T) : Result<T,E>
-private data class Err<T,E>(val errors: List<E>) : Result<T,E> {
+private data class Ok<T,E>(val value: T) : Result<T, E>
+private data class Err<T,E>(val errors: List<E>) : Result<T, E> {
     constructor(error: E) : this(listOf(error))
 }
 
-private fun <T,E> Result<T,E>.getOrExec(default: T, block: (Err<T,E>) -> Unit = {}): T = when (this) {
-    is Ok<T,E> -> this.value
-    is Err<T,E> -> {
+private fun <T,E> Result<T, E>.getOrExec(default: T, block: (Err<T, E>) -> Unit = {}): T = when (this) {
+    is Ok<T, E> -> this.value
+    is Err<T, E> -> {
         block(this)
         default
     }
 }
 
 @Suppress("unused")
-private fun <T,E> Result<T,E>.getOrNull(block: (Err<T,E>) -> Unit = {}): T? = when (this) {
-    is Ok<T,E> -> this.value
-    is Err<T,E> -> {
+private fun <T,E> Result<T, E>.getOrNull(block: (Err<T, E>) -> Unit = {}): T? = when (this) {
+    is Ok<T, E> -> this.value
+    is Err<T, E> -> {
         block(this)
         null
     }
