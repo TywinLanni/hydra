@@ -1,23 +1,22 @@
 package stub
 
 import com.githib.tywinlanni.hydra.api1.apiV1Mapper
-import com.github.tywinlanni.hydra.app.ktor.module
+import com.githib.tywinlanni.hydra.api1.apiV1RequestSerialize
+import com.githib.tywinlanni.hydra.api1.apiV1ResponseDeserialize
 import com.github.tywinlanni.hydra.api.v1.models.*
-import io.ktor.client.call.*
+import com.github.tywinlanni.hydra.app.ktor.module
 import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
+import io.ktor.client.plugins.websocket.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.testing.*
+import io.ktor.websocket.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class V2ProductStubApiTest {
+class WsProductStubs {
 
     @Test
-    fun create() = v1TestApplication(
-        func = "create",
+    fun create() = wsTestApplication(
         request = ProductCreateRequest(
             product = ProductCreateObject(
                 name = "test"
@@ -28,15 +27,13 @@ class V2ProductStubApiTest {
             )
         ),
     ) { response ->
-        val responseObj = response.body<ProductCreateResponse>()
-        assertEquals(200, response.status.value)
+        val responseObj = response as ProductCreateResponse
         assertEquals("air-req-1", responseObj.product?.id)
         assertEquals("Необходимый воздух", responseObj.product?.name)
     }
 
     @Test
-    fun read() = v1TestApplication(
-        func = "read",
+    fun read() = wsTestApplication(
         request = ProductReadRequest(
             product = ProductReadObject("air-req-1"),
             debug = ProductDebug(
@@ -45,14 +42,12 @@ class V2ProductStubApiTest {
             )
         ),
     ) { response ->
-        val responseObj = response.body<ProductReadResponse>()
-        assertEquals(200, response.status.value)
+        val responseObj = response as ProductReadResponse
         assertEquals("air-req-1", responseObj.product?.id)
     }
 
     @Test
-    fun update() = v1TestApplication(
-        func = "update",
+    fun update() = wsTestApplication(
         request = ProductUpdateRequest(
             product = ProductUpdateObject(
                 id = "air-req-1",
@@ -64,15 +59,13 @@ class V2ProductStubApiTest {
             )
         ),
     ) { response ->
-        val responseObj = response.body<ProductUpdateResponse>()
-        assertEquals(200, response.status.value)
+        val responseObj = response as ProductUpdateResponse
         assertEquals("air-req-1", responseObj.product?.id)
         assertEquals("Необходимый воздух", responseObj.product?.name)
     }
 
     @Test
-    fun delete() = v1TestApplication(
-        func = "delete",
+    fun delete() = wsTestApplication(
         request = ProductDeleteRequest(
             product = ProductDeleteObject(
                 id = "air-req-1",
@@ -84,14 +77,12 @@ class V2ProductStubApiTest {
             )
         ),
     ) { response ->
-        val responseObj = response.body<ProductDeleteResponse>()
-        assertEquals(200, response.status.value)
+        val responseObj = response as ProductDeleteResponse
         assertEquals("air-req-1", responseObj.product?.id)
     }
 
     @Test
-    fun search() = v1TestApplication(
-        func = "search",
+    fun search() = wsTestApplication(
         request = ProductSearchRequest(
             productFilter = ProductSearchFilter(
                 searchString = "kotlin"
@@ -102,26 +93,35 @@ class V2ProductStubApiTest {
             )
         ),
     ) { response ->
-        val responseObj = response.body<ProductSearchResponse>()
-        assertEquals(200, response.status.value)
+        val responseObj = response as ProductSearchResponse
         assertEquals("product search-1", responseObj.products?.first()?.id)
     }
 
-    private inline fun <reified T: IRequest> v1TestApplication(
-        func: String,
+    private inline fun <reified T: IRequest> wsTestApplication(
         request: T,
-        crossinline function: suspend (HttpResponse) -> Unit,
+        crossinline function: suspend (IResponse?) -> Unit,
     ): Unit = testApplication {
         application { module() }
         val client = createClient {
+            install(WebSockets)
+
             install(ContentNegotiation) {
                 json(apiV1Mapper)
             }
         }
-        val response = client.post("/v1/product/$func") {
-            contentType(ContentType.Application.Json)
-            setBody(request)
+
+        var response: IResponse? = null
+
+        client.webSocket("/v1/ws") {
+            val initResponse = apiV1ResponseDeserialize<IResponse>((incoming.receive() as? Frame.Text)?.readText() ?: "")
+
+            assertEquals(ResponseResult.SUCCESS, initResponse.result)
+
+            send(Frame.Text(apiV1RequestSerialize(request)))
+
+            response = apiV1ResponseDeserialize((incoming.receive() as Frame.Text).readText())
         }
+
         function(response)
     }
 }

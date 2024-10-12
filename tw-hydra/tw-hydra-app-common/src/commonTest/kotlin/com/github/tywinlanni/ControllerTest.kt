@@ -1,11 +1,12 @@
 package com.github.tywinlanni
 
 import com.github.tywinlanni.hydra.api.v1.models.*
-import com.githib.tywinlanni.hydra.mappers.fromTransport
-import com.githib.tywinlanni.hydra.mappers.toTransportProduct
+import com.githib.tywinlanni.hydra.api1.mappers.fromTransport
+import com.githib.tywinlanni.hydra.api1.mappers.toTransportProduct
 import com.github.tywinlanni.hydra.app.common.IHydraAppSettings
 import com.github.tywinlanni.hydra.app.common.controllerHelper
 import com.github.tywinlanni.hydra.biz.HydraProductProcessor
+import com.github.tywinlanni.hydra.common.HydraCorSettings
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

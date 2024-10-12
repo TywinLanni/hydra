@@ -1,10 +1,10 @@
 package com.github.tywinlanni.hydra.biz
 
-import com.github.tywinlanni.HydraCorSettings
-import com.github.tywinlanni.HydraProductContext
+import com.github.tywinlanni.hydra.common.HydraCorSettings
+import com.github.tywinlanni.hydra.common.HydraProductContext
 import com.github.tywinlanni.hydra.stubs.HydraProductStub
-import com.github.tywinlanni.models.HydraProductType
-import com.github.tywinlanni.models.HydraState
+import com.github.tywinlanni.hydra.common.models.HydraProductType
+import com.github.tywinlanni.hydra.common.models.HydraState
 
 class HydraProductProcessor(val corSettings: HydraCorSettings) {
     suspend fun exec(ctx: HydraProductContext) {

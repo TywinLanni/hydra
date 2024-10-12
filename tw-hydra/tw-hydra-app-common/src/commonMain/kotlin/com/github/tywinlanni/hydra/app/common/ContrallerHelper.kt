@@ -1,9 +1,9 @@
 package com.github.tywinlanni.hydra.app.common
 
-import com.github.tywinlanni.HydraProductContext
-import com.github.tywinlanni.models.HydraCommand
-import com.github.tywinlanni.models.HydraState
-import com.github.tywinlanni.helpers.asHydraError
+import com.github.tywinlanni.hydra.common.HydraProductContext
+import com.github.tywinlanni.hydra.common.models.HydraCommand
+import com.github.tywinlanni.hydra.common.models.HydraState
+import com.github.tywinlanni.hydra.common.helpers.asHydraError
 import kotlinx.datetime.Clock
 
 suspend inline fun <T> IHydraAppSettings.controllerHelper(

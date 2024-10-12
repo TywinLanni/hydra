@@ -1,6 +1,6 @@
 package com.github.tywinlanni.hydra.app.common
 
-import com.github.tywinlanni.HydraCorSettings
+import com.github.tywinlanni.hydra.common.HydraCorSettings
 import com.github.tywinlanni.hydra.biz.HydraProductProcessor
 
 interface IHydraAppSettings {

@@ -1,4 +1,4 @@
-import com.github.tywinlanni.app.ktor.module
+import com.github.tywinlanni.hydra.app.ktor.module
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*

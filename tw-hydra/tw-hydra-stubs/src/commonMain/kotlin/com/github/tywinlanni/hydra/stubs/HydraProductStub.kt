@@ -1,10 +1,10 @@
 package com.github.tywinlanni.hydra.stubs
 
-import com.github.tywinlanni.NONE
-import com.github.tywinlanni.models.HydraProduct
-import com.github.tywinlanni.models.HydraProductId
-import com.github.tywinlanni.models.HydraProductLock
-import com.github.tywinlanni.models.HydraProductType
+import com.github.tywinlanni.hydra.common.NONE
+import com.github.tywinlanni.hydra.common.models.HydraProduct
+import com.github.tywinlanni.hydra.common.models.HydraProductId
+import com.github.tywinlanni.hydra.common.models.HydraProductLock
+import com.github.tywinlanni.hydra.common.models.HydraProductType
 import kotlinx.datetime.Instant
 import kotlin.random.Random
 
