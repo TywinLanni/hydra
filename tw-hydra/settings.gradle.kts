@@ -24,5 +24,9 @@ rootProject.name = "tw-hydra"
 include(":test-module")
 include(":tw-hydra-api-v1-kmp")
 include(":tw-hydra-common")
+include(":tw-hydra-app-ktor")
+include(":tw-hydra-stubs")
+include(":tw-hydra-app-common")
+include(":tw-hydra-biz")
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

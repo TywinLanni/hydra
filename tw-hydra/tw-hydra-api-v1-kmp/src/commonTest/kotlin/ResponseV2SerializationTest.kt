@@ -1,4 +1,4 @@
-import com.githib.tywinlanni.apiV1Mapper
+import com.githib.tywinlanni.hydra.api1.apiV1Mapper
 import com.github.tywinlanni.hydra.api.v1.models.IResponse
 import com.github.tywinlanni.hydra.api.v1.models.ProductCreateResponse
 import com.github.tywinlanni.hydra.api.v1.models.ProductResponseObject
