@@ -9,7 +9,7 @@ class RequestV2SerializationTest {
     private val request: IRequest = ProductCreateRequest(
         debug = ProductDebug(
             mode = ProductRequestDebugMode.STUB,
-            stub = ProductRequestDebugStubs.BAD_TITLE,
+            stub = ProductRequestDebugStubs.BAD_NAME,
         ),
         product = ProductCreateObject(
             name = "asd"
@@ -24,7 +24,7 @@ class RequestV2SerializationTest {
 
         assertContains(json, Regex("\"name\":\\s*\"asd\""))
         assertContains(json, Regex("\"mode\":\\s*\"stub\""))
-        assertContains(json, Regex("\"stub\":\\s*\"badTitle\""))
+        assertContains(json, Regex("\"stub\":\\s*\"badName\""))
         assertContains(json, Regex("\"requestType\":\\s*\"createProduct\""))
     }
 

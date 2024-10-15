@@ -10,6 +10,8 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib-common"))
 
+                implementation(libs.cor)
+
                 implementation(project(":tw-hydra-common"))
                 implementation(project(":tw-hydra-stubs"))
             }

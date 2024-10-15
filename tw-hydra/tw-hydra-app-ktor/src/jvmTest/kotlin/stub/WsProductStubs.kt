@@ -30,7 +30,7 @@ class WsProductStubs {
     ) { response ->
         val responseObj = response as ProductCreateResponse
         assertEquals("air-req-1", responseObj.product?.id)
-        assertEquals("Необходимый воздух", responseObj.product?.name)
+        assertEquals("test", responseObj.product?.name)
     }
 
     @Test
@@ -95,7 +95,7 @@ class WsProductStubs {
         ),
     ) { response ->
         val responseObj = response as ProductSearchResponse
-        assertEquals("product search-1", responseObj.products?.first()?.id)
+        assertEquals("kotlin-1", responseObj.products?.first()?.id)
     }
 
     private inline fun <reified T: IRequest> wsTestApplication(

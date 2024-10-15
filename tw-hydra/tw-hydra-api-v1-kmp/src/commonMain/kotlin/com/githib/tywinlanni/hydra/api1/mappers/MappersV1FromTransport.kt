@@ -21,9 +21,7 @@ private fun ProductDebug?.transportToStubCase(): HydraStubs = when (this?.stub) 
     ProductRequestDebugStubs.SUCCESS -> HydraStubs.SUCCESS
     ProductRequestDebugStubs.NOT_FOUND -> HydraStubs.NOT_FOUND
     ProductRequestDebugStubs.BAD_ID -> HydraStubs.BAD_ID
-    ProductRequestDebugStubs.BAD_TITLE -> HydraStubs.BAD_TITLE
-    ProductRequestDebugStubs.BAD_DESCRIPTION -> HydraStubs.BAD_DESCRIPTION
-    ProductRequestDebugStubs.BAD_VISIBILITY -> HydraStubs.BAD_VISIBILITY
+    ProductRequestDebugStubs.BAD_NAME -> HydraStubs.BAD_NAME
     ProductRequestDebugStubs.CANNOT_DELETE -> HydraStubs.CANNOT_DELETE
     ProductRequestDebugStubs.BAD_SEARCH_STRING -> HydraStubs.BAD_SEARCH_STRING
     null -> HydraStubs.NONE

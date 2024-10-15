@@ -31,7 +31,7 @@ class V2ProductStubApiTest {
         val responseObj = response.body<ProductCreateResponse>()
         assertEquals(200, response.status.value)
         assertEquals("air-req-1", responseObj.product?.id)
-        assertEquals("Необходимый воздух", responseObj.product?.name)
+        assertEquals("test", responseObj.product?.name)
     }
 
     @Test
@@ -104,7 +104,7 @@ class V2ProductStubApiTest {
     ) { response ->
         val responseObj = response.body<ProductSearchResponse>()
         assertEquals(200, response.status.value)
-        assertEquals("product search-1", responseObj.products?.first()?.id)
+        assertEquals("kotlin-1", responseObj.products?.first()?.id)
     }
 
     private inline fun <reified T: IRequest> v1TestApplication(

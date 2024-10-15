@@ -427,8 +427,6 @@ components:
         - success
         - notFound
         - badId
-        - badTitle
-        - badDescription
-        - badVisibility
+        - badName
         - cannotDelete
         - badSearchString
