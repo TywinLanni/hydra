@@ -33,3 +33,13 @@ inline fun errorValidation(
     group = "validation",
     message = "Validation error for field $field: $description",
 )
+
+inline fun errorSystem(
+    violationCode: String,
+    e: Throwable,
+) = HydraError(
+    code = "system-$violationCode",
+    group = "system",
+    message = "System error occurred. Our stuff has been informed, please retry later",
+    exception = e,
+)

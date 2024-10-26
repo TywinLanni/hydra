@@ -43,7 +43,13 @@ ktor-server-negotiation = { module = "io.ktor:ktor-server-content-negotiation", 
 ktor-server-calllogging = { module = "io.ktor:ktor-server-call-logging", version.ref = "ktor" }
 ktor-server-test = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" }
 ktor-server-websocket = { module = "io.ktor:ktor-server-websockets", version.ref = "ktor" }
+
+# Hydra
 cor = { module = "com.github.tywinlanni.hydra.libs:tw-hydra-lib-cor" }
+uuid = "com.benasher44:uuid:0.8.4"
+
+# Databases
+db-cache4k = "io.github.reactivecircus.cache4k:cache4k:0.13.0"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
