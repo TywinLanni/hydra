@@ -22,4 +22,9 @@ data class HydraProductContext(
     var productsResponse: MutableList<HydraProduct> = mutableListOf(),
 
     var wsSession: IHydraWsSession = IHydraWsSession.NONE,
+
+    var corSettings: HydraCorSettings = HydraCorSettings(),
+
+    var productValidating: HydraProduct = HydraProduct(),
+    var productFilterValidating: HydraProductFilter = HydraProductFilter(),
 )
