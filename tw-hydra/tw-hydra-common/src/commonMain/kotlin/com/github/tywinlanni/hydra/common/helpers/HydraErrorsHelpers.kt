@@ -23,6 +23,11 @@ inline fun HydraProductContext.fail(error: HydraError) {
     state = HydraState.FAILING
 }
 
+inline fun HydraProductContext.fail(error: List<HydraError>) {
+    errors.addAll(error)
+    state = HydraState.FAILING
+}
+
 inline fun errorValidation(
     field: String,
     violationCode: String,

@@ -32,5 +32,6 @@ include(":tw-hydra-repo-common")
 include(":tw-hydra-repo-inmemory")
 include(":tw-hydra-repo-stubs")
 include(":tw-hydra-repo-tests")
+include(":tw-hydra-repo-mongo")
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

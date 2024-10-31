@@ -15,3 +15,10 @@ data class DbProductResponseErr(
 ): IDbProductResponse {
     constructor(err: HydraError): this(listOf(err))
 }
+
+data class DbProductResponseErrWithData(
+    val data: HydraProduct,
+    val errors: List<HydraError> = emptyList()
+): IDbProductResponse {
+    constructor(product: HydraProduct, err: HydraError): this(product, listOf(err))
+}

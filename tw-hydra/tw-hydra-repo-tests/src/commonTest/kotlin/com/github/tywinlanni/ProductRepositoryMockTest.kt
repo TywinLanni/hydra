@@ -3,14 +3,14 @@ package com.github.tywinlanni
 import com.github.tywinlanni.hydra.common.repo.*
 import com.github.tywinlanni.hydra.common.models.*
 import com.github.tywinlanni.hydra.stubs.HydraProductStub
-import com.tywinlanni.hydra.repo.ProductRepositoryMock
+import com.github.tywinlanni.hydra.repo.ProductRepositoryMock
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlinx.coroutines.test.runTest
 
 class ProductRepositoryMockTest {
-    private val repo = ProductRepositoryMock(
+    private val repo = com.github.tywinlanni.hydra.repo.ProductRepositoryMock(
         invokeCreateProduct = { DbProductResponseOk(HydraProductStub.prepareProduct { name = "create" }) },
         invokeReadProduct = { DbProductResponseOk(HydraProductStub.prepareProduct { name = "read" }) },
         invokeUpdateProduct = { DbProductResponseOk(HydraProductStub.prepareProduct { name = "update" }) },

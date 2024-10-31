@@ -1,6 +1,6 @@
 package com.github.tywinlanni
 
-import com.tywinlanni.hydra.repo.*
+import com.github.tywinlanni.hydra.repo.*
 
 class ProductRepoInMemoryCreateTest : RepoProductCreateTest() {
     override val repo = ProductRepoInitialized(

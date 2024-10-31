@@ -14,6 +14,8 @@ ktor = "2.3.12"
 
 muschko = "9.4.0"
 
+mongodb = "5.2.0"
+
 [libraries]
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-binaryCompatibilityValidator = { module = "org.jetbrains.kotlinx:binary-compatibility-validator", version.ref = "binaryCompabilityValidator" }
@@ -50,6 +52,10 @@ uuid = "com.benasher44:uuid:0.8.4"
 
 # Databases
 db-cache4k = "io.github.reactivecircus.cache4k:cache4k:0.13.0"
+mongo-driver = { module = "org.mongodb:mongodb-driver-kotlin-coroutine", version.ref = "mongodb" }
+mongo-bson-kotlinx = { module = "org.mongodb:bson-kotlinx", version.ref = "mongodb" }
+
+testcontainers-mongodb = { module = "org.testcontainers:mongodb", version = "1.20.3" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

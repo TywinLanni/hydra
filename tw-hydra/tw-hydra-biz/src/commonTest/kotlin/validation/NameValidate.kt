@@ -47,8 +47,9 @@ fun validateNameCorrect(command: HydraCommand, processor: HydraProductProcessor)
         state = HydraState.NONE,
         workMode = HydraWorkMode.TEST,
         productRequest = HydraProduct(
-            id = HydraProductId("123"),
+            id = HydraProductId("air-req-1"),
             name = "name",
+            lock = HydraProductLock("lock")
         )
     )
 

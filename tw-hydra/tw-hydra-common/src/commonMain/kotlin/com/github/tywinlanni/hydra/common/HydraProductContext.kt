@@ -1,6 +1,7 @@
 package com.github.tywinlanni.hydra.common
 
 import com.github.tywinlanni.hydra.common.models.*
+import com.github.tywinlanni.hydra.common.repo.IRepoProduct
 import com.github.tywinlanni.hydra.common.stubs.HydraStubs
 import com.github.tywinlanni.hydra.common.ws.IHydraWsSession
 import kotlinx.datetime.Instant
@@ -27,4 +28,10 @@ data class HydraProductContext(
 
     var productValidating: HydraProduct = HydraProduct(),
     var productFilterValidating: HydraProductFilter = HydraProductFilter(),
+
+    var productRepo: IRepoProduct = IRepoProduct.NONE,
+    var productRepoRead: HydraProduct = HydraProduct(), // То, что прочитали из репозитория
+    var productRepoPrepare: HydraProduct = HydraProduct(), // То, что готовим для сохранения в БД
+    var productRepoDone: HydraProduct = HydraProduct(), // Результат, полученный из БД
+    var productsRepoDone: MutableList<HydraProduct> = mutableListOf(),
 )

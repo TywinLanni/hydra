@@ -6,9 +6,13 @@ import com.github.tywinlanni.hydra.common.models.HydraCommand
 import com.github.tywinlanni.hydra.biz.general.initStatus
 import com.github.tywinlanni.hydra.biz.general.operation
 import com.github.tywinlanni.hydra.biz.general.stubs
+import com.github.tywinlanni.hydra.biz.repo.*
 import com.github.tywinlanni.hydra.biz.stubs.*
 import com.github.tywinlanni.hydra.biz.validation.*
+import com.github.tywinlanni.hydra.common.models.HydraState
+import com.github.tywinlanni.libs.cor.dsl.chain
 import com.github.tywinlanni.libs.cor.dsl.rootChain
+import com.github.tywinlanni.libs.cor.dsl.worker
 
 class HydraProductProcessor(private val corSettings: HydraCorSettings) {
     
@@ -16,6 +20,7 @@ class HydraProductProcessor(private val corSettings: HydraCorSettings) {
     
     private val businessChain = rootChain {
         initStatus("Инициализация статуса")
+        initRepo("Инициализация репозитория")
 
         operation("Создание продукт", HydraCommand.CREATE) {
             stubs {
@@ -29,6 +34,14 @@ class HydraProductProcessor(private val corSettings: HydraCorSettings) {
                 validateName()
                 finishProductValidation()
             }
+
+            chain {
+                title = "Логика сохранения"
+                repoPrepareCreate("Подготовка объекта для сохранения")
+                repoCreate("Создание объявления в БД")
+            }
+
+            prepareResult("Подготовка ответа")
         }
 
         operation("Получить продукт", HydraCommand.READ) {
@@ -44,6 +57,18 @@ class HydraProductProcessor(private val corSettings: HydraCorSettings) {
                 validateId()
                 finishProductValidation()
             }
+
+            chain {
+                title = "Логика чтения"
+                repoRead("Чтение объявления из БД")
+                worker {
+                    title = "Подготовка ответа для Read"
+                    on { state == HydraState.RUNNING }
+                    handle { productRepoDone = productRepoRead }
+                }
+            }
+
+            prepareResult("Подготовка ответа")
         }
 
         operation("Изменить продукт", HydraCommand.UPDATE) {
@@ -61,6 +86,16 @@ class HydraProductProcessor(private val corSettings: HydraCorSettings) {
                 validateLock()
                 finishProductValidation()
             }
+
+            chain {
+                title = "Логика сохранения"
+                repoRead("Чтение объявления из БД")
+                checkLock("Проверяем консистентность по оптимистичной блокировке")
+                repoPrepareUpdate("Подготовка объекта для обновления")
+                repoUpdate("Обновление объявления в БД")
+            }
+
+            prepareResult("Подготовка ответа")
         }
 
         operation("Удалить продукт", HydraCommand.DELETE) {
@@ -76,6 +111,16 @@ class HydraProductProcessor(private val corSettings: HydraCorSettings) {
                 validateId()
                 finishProductValidation()
             }
+
+            chain {
+                title = "Логика удаления"
+                repoRead("Чтение объявления из БД")
+                checkLock("Проверяем консистентность по оптимистичной блокировке")
+                repoPrepareDelete("Подготовка объекта для удаления")
+                repoDelete("Удаление объявления из БД")
+            }
+
+            prepareResult("Подготовка ответа")
         }
 
         operation("Поиск продуктов", HydraCommand.SEARCH) {
@@ -90,6 +135,9 @@ class HydraProductProcessor(private val corSettings: HydraCorSettings) {
                 validateSearchString()
                 finishProductFilterValidation()
             }
+
+            repoSearch("Поиск объявления в БД по фильтру")
+            prepareResult("Подготовка ответа")
         }
     }.build()
 }

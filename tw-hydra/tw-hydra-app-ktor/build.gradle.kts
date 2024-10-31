@@ -66,6 +66,9 @@ kotlin {
                 implementation(libs.kotlinx.serialization.core)
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.ktor.serialization.json)
+
+                implementation(projects.twHydraRepoStubs)
+                implementation(projects.twHydraRepoInmemory)
             }
         }
 
