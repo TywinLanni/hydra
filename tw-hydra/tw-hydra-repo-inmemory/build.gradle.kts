@@ -10,7 +10,6 @@ kotlin {
                 api(projects.twHydraRepoCommon)
 
                 implementation(libs.coroutines.core)
-                implementation(libs.coroutines.test)
                 implementation(libs.db.cache4k)
                 implementation(libs.uuid)
             }
