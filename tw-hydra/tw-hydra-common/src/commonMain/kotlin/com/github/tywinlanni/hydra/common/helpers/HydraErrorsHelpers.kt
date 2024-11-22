@@ -23,6 +23,11 @@ inline fun HydraProductContext.fail(error: HydraError) {
     state = HydraState.FAILING
 }
 
+inline fun HydraProductContext.fail(error: List<HydraError>) {
+    errors.addAll(error)
+    state = HydraState.FAILING
+}
+
 inline fun errorValidation(
     field: String,
     violationCode: String,
@@ -32,4 +37,14 @@ inline fun errorValidation(
     field = field,
     group = "validation",
     message = "Validation error for field $field: $description",
+)
+
+inline fun errorSystem(
+    violationCode: String,
+    e: Throwable,
+) = HydraError(
+    code = "system-$violationCode",
+    group = "system",
+    message = "System error occurred. Our stuff has been informed, please retry later",
+    exception = e,
 )
